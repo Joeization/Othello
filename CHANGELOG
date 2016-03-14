@@ -1,0 +1,8 @@
+@Joeization 2016/3/14
+    add:
+        class ai
+    change:
+        void view::drop to bool view::drop
+            -if man drop is valid, then ai can drop
+    bugs:
+        after invalid drop, button wont bounce up
