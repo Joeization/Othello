@@ -5,23 +5,20 @@ view *main_window;
 GtkWidget *window;
 ai *umikaze = new ai();
 
-view::view()
-{
+view::view(){
   gtk_init(NULL, NULL);
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(window), "betaGo!");
+  this->create_top_info();
   this->create_board();
   gtk_widget_show(window);
 
   this->now_player = 1;
 }
 
-view::view(view* obj)
-{
-  for (int i = 0; i < 8; i++)
-  {
-    for (int j = 0; j < 8; j++)
-    {
+view::view(view* obj){
+  for (int i = 0; i < 8; i++){
+    for (int j = 0; j < 8; j++){
       this->map[i][j].color = obj->map[i][j].color;
       this->map[i][j].button = NULL;
     }
@@ -29,19 +26,11 @@ view::view(view* obj)
   this->now_player = obj->now_player;
 }
 
-void view::top_info()
-{
-  cout << "ccc";
-}
-
-void view::testing()
-{
-  if (debug) {
+void view::testing(){
+  if (debug){
     cout << "color" << endl;
-    for (int i = 0; i < 8; i++)
-    {
-      for (int j = 0; j < 8; j++)
-      {
+    for (int i = 0; i < 8; i++){
+      for (int j = 0; j < 8; j++){
         cout << this->map[i][j].color;
         cout << " ";
       }
@@ -50,10 +39,8 @@ void view::testing()
     
     
     cout << "eight direction" << endl;
-    for (int i = 0; i < 3; i++)
-    {
-      for (int j = 0; j < 3; j++)
-      {
+    for (int i = 0; i < 3; i++){
+      for (int j = 0; j < 3; j++){
         cout << this->change_buffer[i][j];
       }
       cout << endl;
@@ -63,9 +50,15 @@ void view::testing()
   }
 }
 
+void view::create_top_info(){
+  cout << "ccc";
+}
 
-void view::create_board()
-{
+void view::change_top_info(){
+  cout << "ccc";
+}
+
+void view::create_board(){
   GtkWidget *vbox;
   GtkWidget *hbox;
   GtkWidget *button;
@@ -81,11 +74,9 @@ void view::create_board()
   gtk_widget_show_all(hbox);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-  for (int i = 0; i < 8; i++)
-  {
+  for (int i = 0; i < 8; i++){
     hbox = gtk_hbox_new(FALSE, 0);
-    for (int j = 0; j < 8; j++)
-    {
+    for (int j = 0; j < 8; j++){
       button = gtk_toggle_button_new();
       gtk_widget_set_usize(button, button_size, button_size);
       gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -112,24 +103,34 @@ void view::create_board()
   this->change_board();
 }
 
-void view::change_board()
-{
-  for (int i = 0; i < 8; i++)
-  {
-    for (int j = 0; j < 8; j++)
-    {
-      if (this->map[i][j].color == 1)
+void view::change_board(){
+  
+  GdkColor color;
+
+  for (int i = 0; i < 8; i++){
+    for (int j = 0; j < 8; j++){
+      if (this->map[i][j].color == 1){
         gtk_button_set_label(GTK_BUTTON(this->map[i][j].button), "X");
-      else if (this->map[i][j].color == -1)
+        gdk_color_parse ("black", &color);
+      }
+      else if (this->map[i][j].color == -1){
         gtk_button_set_label(GTK_BUTTON(this->map[i][j].button), "O");
-      else
+        gdk_color_parse ("white", &color);
+      }
+      else{
         gtk_button_set_label(GTK_BUTTON(this->map[i][j].button), "");
+        gdk_color_parse ("brown", &color);
+      }
+
+      // color for all button status
+      gtk_widget_modify_bg (GTK_WIDGET(this->map[i][j].button), GTK_STATE_ACTIVE, &color);
+      gtk_widget_modify_bg (GTK_WIDGET(this->map[i][j].button), GTK_STATE_NORMAL, &color);
+      gtk_widget_modify_bg (GTK_WIDGET(this->map[i][j].button), GTK_STATE_PRELIGHT, &color);
     }
   }
 }
 
-bool view::drop_valid(pair<int, int> p, int color)
-{
+bool view::drop_valid(pair<int, int> p, int color){
   bool judge = false;
   int another = (color == 1) ? -1 : 1;
   int temp_x, temp_y;
@@ -138,10 +139,8 @@ bool view::drop_valid(pair<int, int> p, int color)
   if (this->map[p.first][p.second].color != 0) // 已經有棋子
     return  false;
 
-  for (int i = -1; i < 2; i++)
-  {
-    for (int j = -1; j < 2; j++)
-    {
+  for (int i = -1; i < 2; i++){
+    for (int j = -1; j < 2; j++){
       this->change_buffer[i+1][j+1] = 0;
       temp_acc = 0;
       temp_x = p.first+i;
@@ -169,22 +168,19 @@ bool view::drop_valid(pair<int, int> p, int color)
   return judge;
 }
 
-bool view::drop(pair<int, int> p, int color)
-{
+bool view::drop(pair<int, int> p, int color){
   int temp_x, temp_y;
-  
-  if (this->drop_valid(p, color))
-  {
+  vector<pair<int, int> > detect_ending;
+  GtkWidget *dialog;
+
+  if (this->drop_valid(p, color)){
     this->map[p.first][p.second].color = color;
     
-    for (int i = -1; i < 2; i++)
-    {
-      for (int j = -1; j < 2; j++)
-      {
+    for (int i = -1; i < 2; i++){
+      for (int j = -1; j < 2; j++){
         temp_x = p.first+i;
         temp_y = p.second+j;
-        while (this->change_buffer[i+1][j+1]--)
-        {
+        while (this->change_buffer[i+1][j+1]--){
           this->map[temp_x][temp_y].color = color;
           temp_x += i;
           temp_y += j;
@@ -194,24 +190,26 @@ bool view::drop(pair<int, int> p, int color)
 
     this->change_player();
     this->change_board();
+
+    detect_ending = can_drop(this->get_now_color());
+    if (detect_ending.size() == 0)
+      this->ending_handler();
+
     return true;
   }
-  else
-  {
-    cout << "can't drop" << endl;
+  else{
+    this->message_alert("注意！", "該點不可落子", "請下在可落子的點");
+
     return false;
   }
 
 }
 
-vector<pair<int, int> > view::can_drop(int color)
-{
+vector<pair<int, int> > view::can_drop(int color){
   vector<pair<int, int> > drop_set;
 
-  for (int i = 0; i < 8; i++)
-  {
-    for (int j = 0; j < 8; j++)
-    {
+  for (int i = 0; i < 8; i++){
+    for (int j = 0; j < 8; j++){
       if (drop_valid(make_pair(i,j), color))
         drop_set.push_back(make_pair(i,j));
     }
@@ -220,8 +218,22 @@ vector<pair<int, int> > view::can_drop(int color)
   return drop_set;
 }
 
-bool view::put_piece(GtkWidget *widget, GdkEventButton *event, gpointer data)
-{
+void view::ending_handler(){
+  this->message_alert("恭喜！", "玩家", "希望您玩的愉快！");
+}
+
+void view::message_alert(const char *title, const char *first_msg, const char *second_msg){
+  GtkWidget *dialog  = gtk_message_dialog_new(GTK_WINDOW(window), 
+                                  GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, 
+                                  GTK_BUTTONS_OK, first_msg);
+  gtk_window_set_title(GTK_WINDOW(dialog), title);
+  gtk_message_dialog_format_secondary_text(
+    GTK_MESSAGE_DIALOG(dialog), second_msg);
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+bool view::put_piece(GtkWidget *widget, GdkEventButton *event, gpointer data){
   gint index = (*(gint*)(&data));
   if(main_window->drop(make_pair(index/8,index%8),main_window->get_now_color()))
     umikaze->run(main_window);
