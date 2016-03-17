@@ -1,4 +1,4 @@
-@Joeization 2016/3/14
+#Joeization 2016/3/14
     add:
         class ai
     change:
@@ -7,7 +7,7 @@
     bugs:
         after invalid drop, button wont bounce up
 
-@willyc20 2016/3/17
+willyc20 2016/3/17
     add:
         void view::create_top_info
         void view::change_top_info
@@ -17,7 +17,7 @@
         void view::change_board
             -add piece color
 
-@Joeization 2016/3/17
+#Joeization 2016/3/17
     add:
         class train
         ai compute map value (very weak now)
