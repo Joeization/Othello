@@ -16,5 +16,13 @@
     change:
         void view::change_board
             -add piece color
-        
-            
+
+@Joeization 2016/3/17
+    add:
+        class train
+        ai compute map value (very weak now)
+    change:
+        class view
+            -add bool show to resolve trainning
+        bool view::drop
+            -and cnt to check valid

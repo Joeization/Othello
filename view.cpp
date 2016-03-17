@@ -3,15 +3,16 @@
 
 view *main_window;
 GtkWidget *window;
-ai *umikaze = new ai();
+extern ai *umikaze;
 
-view::view(){
+view::view(bool s){
   gtk_init(NULL, NULL);
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(window), "betaGo!");
+  gtk_window_set_title(GTK_WINDOW(window), "betaOthello!");
   this->create_top_info();
   this->create_board();
-  gtk_widget_show(window);
+  show = s;
+  if(show)gtk_widget_show(window);
 
   this->now_player = 1;
 }
@@ -51,11 +52,15 @@ void view::testing(){
 }
 
 void view::create_top_info(){
-  cout << "ccc";
+  #ifdef OUTPUT
+    cout << "ccc";
+  #endif
 }
 
 void view::change_top_info(){
-  cout << "ccc";
+  #ifdef OUTPUT
+    cout << "ccc";
+  #endif
 }
 
 void view::create_board(){
@@ -186,15 +191,38 @@ bool view::drop(pair<int, int> p, int color){
           temp_y += j;
         }
       }
-    }   
+    }
 
     this->change_player();
     this->change_board();
 
+    if(show){
+    //輸出比數
+      int b = 0;
+      int w = 0;
+      for(int i=0;i<8;i++)
+        for(int j=0;j<8;j++){
+        if(map[i][j].color==1)b++;
+        if(map[i][j].color==-1)w++;
+      }
+      cout << endl;
+      cout << "Black :" << b << endl;
+      cout << "White :" << w;
+      cout << endl;
+    }
+
+    int cnt = 0;
+    detect_ending = can_drop(this->get_now_color());
+    if (detect_ending.size() == 0){
+      cnt++;
+      this->change_player();
+    }
     detect_ending = can_drop(this->get_now_color());
     if (detect_ending.size() == 0)
+      cnt++;
+    if(cnt == 2)
       this->ending_handler();
-
+    
     return true;
   }
   else{
@@ -202,7 +230,6 @@ bool view::drop(pair<int, int> p, int color){
 
     return false;
   }
-
 }
 
 vector<pair<int, int> > view::can_drop(int color){
@@ -219,7 +246,12 @@ vector<pair<int, int> > view::can_drop(int color){
 }
 
 void view::ending_handler(){
-  this->message_alert("恭喜！", "玩家", "希望您玩的愉快！");
+  if(show)
+    this->message_alert("恭喜！", "玩家", "希望您玩的愉快！");
+  /*
+  else
+    gtk_widget_hide(window);
+  */
 }
 
 void view::message_alert(const char *title, const char *first_msg, const char *second_msg){
@@ -233,8 +265,33 @@ void view::message_alert(const char *title, const char *first_msg, const char *s
   gtk_widget_destroy(dialog);
 }
 
+int player_color = 1;
 bool view::put_piece(GtkWidget *widget, GdkEventButton *event, gpointer data){
   gint index = (*(gint*)(&data));
-  if(main_window->drop(make_pair(index/8,index%8),main_window->get_now_color()))
+  int nc = main_window->get_now_color();
+  if(nc==player_color&&
+    main_window->drop(make_pair(index/8,index%8),main_window->get_now_color())){
+    if(main_window->get_now_color()!=nc){
+      umikaze->set_value(main_window);
+      umikaze->run(main_window);
+    }
+  }
+  else if(nc!=player_color){
+    umikaze->set_value(main_window);
     umikaze->run(main_window);
+  }
+}
+
+int view::winner(){
+  int b = 0;
+  int w = 0;
+  for(int i=0;i<8;i++)
+    for(int j=0;j<8;j++){
+      if(map[i][j].color == 1)
+        b++;
+      else if(map[i][j].color == -1)
+        w++;
+    }
+  if(b > w)return 1;
+  return -1;
 }

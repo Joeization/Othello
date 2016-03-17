@@ -16,6 +16,9 @@ typedef struct chess chess;
 class view{
   chess map[8][8]; // 棋子資訊
 
+  bool show;
+  //test
+
   // drop_valid判斷可否落子同時算出結果給drop用
   // 紀錄8個方向個要改變幾顆棋子
   int change_buffer[3][3];
@@ -24,7 +27,7 @@ class view{
   int now_player; // 當前顏色
 
 public:
-  view();
+  view(bool s=true);
   view(view* b); // 複製一個測試用
   ~view() {}
 
@@ -35,6 +38,7 @@ public:
   vector<pair<int, int> > can_drop(int color); // 拿可下的位置組合
   
   void worker();
+  int winner();//訓練的時候讓AI知道誰贏
 
 private:
   void testing();
@@ -53,7 +57,7 @@ private:
   
   // 為了接gtk的event 無奈寫法
   static bool put_piece(GtkWidget *widget, GdkEventButton *event, gpointer data);
-
+  friend class train;
 };
 
 struct box{
