@@ -7,7 +7,7 @@
     bugs:
         after invalid drop, button wont bounce up
 
-willyc20 2016/3/17
+#willyc20 2016/3/17
     add:
         void view::create_top_info
         void view::change_top_info
