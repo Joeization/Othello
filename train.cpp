@@ -1,8 +1,5 @@
 #include "train.h"
 
-extern view *main_window;
-extern GtkWidget *window;
-
 train::train(){
     for(int i=0;i<GrpSize;i++)
         grp[i] = new ai(1);
@@ -56,7 +53,7 @@ void train::next_gen(){
                 #ifdef OUTPUT
                     cout << i << " vs " << j << endl;
                 #endif
-                board = new view(false);
+                board = new game();
                 for(int k=0;k<35;k++){
                     if(board->can_drop(1).size()>0){
                         grp[i]->set_value(board);
@@ -79,7 +76,7 @@ void train::next_gen(){
                 #ifdef OUTPUT
                     cout << win << endl;
                 #endif
-                gtk_widget_destroy(window);
+                
                 delete board;
             }
         }

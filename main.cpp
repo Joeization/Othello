@@ -1,12 +1,13 @@
 #include "view.h"
 #include "ai.h"
 #include "train.h"
+#include "game.h"
+#include "view_game.h"
 //#define OUTPUT
 
-extern view *main_window;
-extern GtkWidget *window;
 extern ai *umikaze;
-
+extern view_game *main_window;
+extern GtkWidget *window;
 const int gene = 1;
 //train times
 
@@ -22,7 +23,7 @@ int main(int argc, char *argv[]){
   }
   umikaze = trainer->best();
   delete trainer;
-  main_window = new view(true);
+  main_window = new view_game(true);
   gtk_main();
 
   return 0;

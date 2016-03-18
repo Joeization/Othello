@@ -5,7 +5,7 @@
 #include <algorithm>
 #ifndef AI_H
 #define AI_H
-#include "view.h"
+#include "game.h"
 
 const int Layer = 3;
 //weight layer
@@ -16,7 +16,7 @@ const int acc = 4;
 const int dis = 5;
 //move compute distance
 
-class view;
+class game;
 
 class ai{
 private:
@@ -30,8 +30,8 @@ private:
 public:
     ai(bool init);
     ~ai();
-    void set_value(view *v);
-    bool run(view *v);
+    void set_value(game *v);
+    bool run(game *v);
     friend class train;
 };
 

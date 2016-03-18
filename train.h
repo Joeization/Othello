@@ -1,7 +1,7 @@
 #ifndef TRAIN_H
 #define TRAIN_H
 #include "ai.h"
-#include "view.h"
+#include "game.h"
 
 extern ai *umikaze;
 
@@ -14,7 +14,7 @@ private:
     ai *grp[GrpSize];
     int score[GrpSize];
     ai *tmp[GrpSize];
-    view *board;
+    game *board;
     void mate(ai *a, ai *b,int id);
     void mutate(ai *a);
 public:

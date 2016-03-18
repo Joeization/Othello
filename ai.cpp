@@ -23,7 +23,7 @@ ai::ai(bool init){
 ai::~ai(){
     //do nothing
 }
-void ai::set_value(view *v){
+void ai::set_value(game *v){
     //init value for current map
     for(int fi=0;fi<8;fi++){
         for(int fj=0;fj<8;fj++){
@@ -57,7 +57,7 @@ void ai::set_value(view *v){
     }
 }
 
-bool ai::run(view *v){
+bool ai::run(game *v){
     //testing
     int color=v->get_now_color();
     vector<pair<int, int> > s = v->can_drop(color);

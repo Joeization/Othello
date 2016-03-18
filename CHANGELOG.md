@@ -26,3 +26,10 @@
             -add bool show to resolve trainning
         bool view::drop
             -and cnt to check valid
+
+@willyc20 2016/3/18
+    add:
+        class game (prototype)
+        class view_game (inherit, have GUI)
+    change:
+        splite view and game

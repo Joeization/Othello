@@ -30,3 +30,5 @@
 #Other
 *.bat
 *.swp
+*.swo
+*.sh
