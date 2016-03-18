@@ -34,7 +34,7 @@ protected:
   friend class train;
 
 public:
-  game(bool s=true);
+  game();
   game(game* b); // 複製一個測試用
   ~game() {}
 

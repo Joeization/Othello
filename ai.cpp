@@ -2,6 +2,10 @@
 
 ai *umikaze = new ai(0);
 
+float sigmoid(float v){
+    return v/(abs(v)+1);
+}
+
 ai::ai(bool init){
     //init weight, there may be a better way.
     if(init){
@@ -27,7 +31,7 @@ void ai::set_value(game *v){
     //init value for current map
     for(int fi=0;fi<8;fi++){
         for(int fj=0;fj<8;fj++){
-            value[fi][fj]=10.0*(v->get_pos(make_pair(fi,fj)));
+            value[fi][fj] = (v->get_pos(make_pair(fi,fj)));
         }
     }
     //compute
@@ -53,13 +57,13 @@ void ai::set_value(game *v){
         }
         for(int i=0;i<8;i++)
             for(int j=0;j<8;j++)
-                value[i][j] = tmp[i][j];
+                value[i][j] = sigmoid(tmp[i][j]);
     }
 }
 
-bool ai::run(game *v){
+bool ai::run(game *v, bool sh){
     //testing
-    int color=v->get_now_color();
+    int color = v->get_now_color();
     vector<pair<int, int> > s = v->can_drop(color);
     if(s.size() > 0){
         //bubble sort is enough for 64 elements
@@ -70,9 +74,11 @@ bool ai::run(game *v){
                     iter_swap(s.begin()+i,s.begin()+j);
             }
         v->drop(s[0], color);
+        if(sh)cout << value[s[0].first][s[0].second] << endl;
         return true;
     }
     else{
+        cout << "no valid move." << endl;
         return false;
     }
 }

@@ -3,11 +3,12 @@
 #include <cstring>
 #include <utility>
 #include <algorithm>
+#include <cmath>
 #ifndef AI_H
 #define AI_H
 #include "game.h"
 
-const int Layer = 3;
+const int Layer = 4;
 //weight layer
 
 const int acc = 4;
@@ -31,7 +32,7 @@ public:
     ai(bool init);
     ~ai();
     void set_value(game *v);
-    bool run(game *v);
+    bool run(game *v, bool sh);
     friend class train;
 };
 

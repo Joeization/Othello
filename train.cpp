@@ -54,27 +54,27 @@ void train::next_gen(){
                     cout << i << " vs " << j << endl;
                 #endif
                 board = new game();
-                for(int k=0;k<35;k++){
+                for(int k=0;k<64;k++){
                     if(board->can_drop(1).size()>0){
                         grp[i]->set_value(board);
-                        grp[i]->run(board);   
+                        grp[i]->run(board, false);
                     }
                     else{
-                        board->change_player();
+                        //board->change_player();
                     }
                     if(board->can_drop(-1).size()>0){
                         grp[j]->set_value(board);
-                        grp[j]->run(board);   
+                        grp[j]->run(board, false);
                     }
                     else{
-                        board->change_player();
+                        //board->change_player();
                     }
                 }
                 int win = board->winner();
                 if(win == 1)score[i]++;
-                else score[j]++;
+                else if(win == -1)score[j]++;
                 #ifdef OUTPUT
-                    cout << win << endl;
+                    cout << "rd: " << win << endl;
                 #endif
                 
                 delete board;

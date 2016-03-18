@@ -68,8 +68,8 @@ void view_game::create_board(){
   gtk_widget_show(vbox);
 
   // 初始中間四子
-  this->chess[4][4] = this->chess[3][3] = 1;
-  this->chess[3][4] = this->chess[4][3] = -1;
+  this->chess[4][4] = this->chess[3][3] = -1;
+  this->chess[3][4] = this->chess[4][3] = 1;
 
   this->change_board();
 }
@@ -130,12 +130,12 @@ bool view_game::put_piece(GtkWidget *widget, GdkEventButton *event, gpointer dat
     main_window->drop(make_pair(index/8,index%8),main_window->get_now_color())){
     if(main_window->get_now_color()!=nc){
       umikaze->set_value(main_window);
-      umikaze->run(main_window);
+      umikaze->run(main_window, true);
     }
   }
   else if(nc!=player_color){
     umikaze->set_value(main_window);
-    umikaze->run(main_window);
+    umikaze->run(main_window, true);
   }
 
   main_window->change_board();

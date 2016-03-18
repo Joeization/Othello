@@ -3,8 +3,9 @@
 
 extern ai *umikaze;
 
-game::game(bool s){
+game::game(){
   this->now_player = 1;
+  this->create_board();
 }
 
 game::game(game* obj){
@@ -115,7 +116,7 @@ bool game::drop(pair<int, int> p, int color){
     this->change_player();
 
     if(show){
-    //輸出比數
+      //輸出比數
       int b = 0;
       int w = 0;
       for(int i=0;i<8;i++)
@@ -126,7 +127,7 @@ bool game::drop(pair<int, int> p, int color){
       cout << endl;
       cout << "Black :" << b << endl;
       cout << "White :" << w;
-      cout << endl;
+        cout << endl;
     }
 
     int cnt = 0;
@@ -183,5 +184,6 @@ int game::winner(){
         w++;
     }
   if(b > w)return 1;
-  return -1;
+  else if(w > b)return -1;
+  else return 0;
 }
