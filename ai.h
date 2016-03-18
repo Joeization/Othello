@@ -14,8 +14,11 @@ const int Layer = 4;
 const int acc = 4;
 //weight accuracy
 
-const int dis = 5;
+const int dis = 4;
 //move compute distance
+
+const float threshold = 0.3;
+//weight threshold
 
 class game;
 

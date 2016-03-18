@@ -6,6 +6,7 @@ extern ai *umikaze;
 game::game(){
   this->now_player = 1;
   this->create_board();
+  show = false;
 }
 
 game::game(game* obj){

@@ -8,7 +8,7 @@
 extern ai *umikaze;
 extern view_game *main_window;
 extern GtkWidget *window;
-const int gene = 10;
+const int gene = 16;
 //train times
 
 int main(int argc, char *argv[]){

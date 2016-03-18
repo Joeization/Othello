@@ -5,7 +5,7 @@
 
 extern ai *umikaze;
 
-const int GrpSize = 9;
+const int GrpSize = 12;
 const int LBor = GrpSize/3;
 const int RBor = RBor*2;
 

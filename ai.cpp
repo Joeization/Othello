@@ -31,7 +31,7 @@ void ai::set_value(game *v){
     //init value for current map
     for(int fi=0;fi<8;fi++){
         for(int fj=0;fj<8;fj++){
-            value[fi][fj] = (v->get_pos(make_pair(fi,fj)));
+            value[fi][fj] = (float)(v->get_pos(make_pair(fi,fj)));
         }
     }
     //compute
@@ -48,16 +48,23 @@ void ai::set_value(game *v){
                                 w += base*weight[l][fi][fj][ti][tj][p];
                                 base /= 10;
                             }
-                            w -= 5.0;
-                            tmp[ti][tj] += (float)value[fi][fj]*w*Layer/(l+1);
+                            w -= 5;
+                            tmp[ti][tj] += value[fi][fj]*w;
                         }
                     }
                 }
             }
         }
+        float stimu;
+        //stimulate
         for(int i=0;i<8;i++)
-            for(int j=0;j<8;j++)
-                value[i][j] = sigmoid(tmp[i][j]);
+            for(int j=0;j<8;j++){
+                stimu = sigmoid(tmp[i][j]);
+                if(abs(stimu) > threshold)
+                    value[i][j] = stimu;
+                else
+                    value[i][j] = 0;
+            }
     }
 }
 
@@ -74,7 +81,11 @@ bool ai::run(game *v, bool sh){
                     iter_swap(s.begin()+i,s.begin()+j);
             }
         v->drop(s[0], color);
-        if(sh)cout << value[s[0].first][s[0].second] << endl;
+        if(sh){
+            cout << value[s[0].first][s[0].second] << endl;
+            cout << "gap: " << value[s[0].first][s[0].second]
+                - value[s[s.size()-1].first][s[s.size()-1].second] << endl;
+        }
         return true;
     }
     else{
