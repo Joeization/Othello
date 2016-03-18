@@ -27,9 +27,13 @@
         bool view::drop
             -and cnt to check valid
 
-@willyc20 2016/3/18
+#willyc20 2016/3/18
     add:
         class game (prototype)
         class view_game (inherit, have GUI)
     change:
         splite view and game
+
+#Joeization 2016/3/18
+    change:
+        correct wrong color, train and ai function
