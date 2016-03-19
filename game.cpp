@@ -57,6 +57,16 @@ void game::create_board(){
 
 }
 
+pair<int, int> game::get_now_score(){
+  pair<int, int> score (0, 0); // first:black second:while
+  for(int i=0;i<8;i++)
+    for(int j=0;j<8;j++){
+    if(this->chess[i][j]==1)score.first++;
+    if(this->chess[i][j]==-1)score.second++;
+  }
+  return score;
+}
+
 bool game::drop_valid(pair<int, int> p, int color){
   bool judge = false;
   int another = (color == 1) ? -1 : 1;
@@ -118,16 +128,10 @@ bool game::drop(pair<int, int> p, int color){
 
     if(show){
       //輸出比數
-      int b = 0;
-      int w = 0;
-      for(int i=0;i<8;i++)
-        for(int j=0;j<8;j++){
-        if(this->chess[i][j]==1)b++;
-        if(this->chess[i][j]==-1)w++;
-      }
+      pair<int, int> score = this->get_now_score();
       cout << endl;
-      cout << "Black :" << b << endl;
-      cout << "White :" << w;
+      cout << "Black :" << score.first << endl;
+      cout << "White :" << score.second;
         cout << endl;
     }
 

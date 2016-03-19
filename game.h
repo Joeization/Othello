@@ -22,9 +22,13 @@ protected:
   int now_player; // 當前顏色
 
   /** function **/
+  
+  void create_board();
 
   void debugging(); // show class status
+  
   void change_player() { this->now_player = (this->now_player == 1) ? -1 : 1; }
+  pair<int, int> get_now_score();
   bool drop_valid(pair<int, int> p, int color);
   void message_alert(const char *title, const char *first_msg, const char *second_msg);
   void ending_handler();
@@ -38,7 +42,6 @@ public:
   game(game* b); // 複製一個測試用
   ~game() {}
 
-  void create_board();
   
   int get_now_color() { return this->now_player; }
   int get_pos(pair<int, int> p) { return this->chess[p.first][p.second]; }

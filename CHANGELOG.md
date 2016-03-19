@@ -37,3 +37,11 @@
 #Joeization 2016/3/18
     change:
         correct wrong color, train and ai function
+
+#willyc20 2016/3/19
+    add:
+      class view_game: landing
+    change:
+      class view_game: top_info
+    delete:
+      class view (not need now)

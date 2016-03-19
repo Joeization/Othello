@@ -1,4 +1,3 @@
-#include "view.h"
 #include "ai.h"
 #include "train.h"
 #include "game.h"
