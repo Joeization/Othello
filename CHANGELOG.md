@@ -45,3 +45,8 @@
       class view_game: top_info
     delete:
       class view (not need now)
+
+#Joeization 2016/3/20
+    change:
+        fixed memory usage
+        class ai: change functions

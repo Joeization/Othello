@@ -8,7 +8,7 @@
 #define AI_H
 #include "game.h"
 
-const int Layer = 4;
+const int Layer = 3;
 //weight layer
 
 const int acc = 4;
@@ -17,7 +17,7 @@ const int acc = 4;
 const int dis = 4;
 //move compute distance
 
-const float threshold = 0.3;
+const float threshold = 0.5;
 //weight threshold
 
 class game;
@@ -37,6 +37,7 @@ public:
     void set_value(game *v);
     bool run(game *v, bool sh);
     friend class train;
+    void set_weight();
 };
 
 #endif

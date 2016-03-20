@@ -1,8 +1,11 @@
 #include "train.h"
 
 train::train(){
-    for(int i=0;i<GrpSize;i++)
+    for(int i=0;i<GrpSize;i++){
         grp[i] = new ai(1);
+        tmp[i] = new ai(0);
+    }
+    board = new game();
 }
 
 train::~train(){
@@ -53,7 +56,7 @@ void train::next_gen(){
                 #ifdef OUTPUT
                     cout << i << " vs " << j << endl;
                 #endif
-                board = new game();
+                board->create_board();
                 for(int k=0;k<64;k++){
                     if(board->can_drop(1).size()>0){
                         grp[i]->set_value(board);
@@ -76,8 +79,6 @@ void train::next_gen(){
                 #ifdef OUTPUT
                     cout << "rd: " << win << endl;
                 #endif
-                
-                delete board;
             }
         }
     }
@@ -102,7 +103,7 @@ void train::next_gen(){
         mate(grp[l],grp[r],i);
     }
     for(int i=RBor;i<GrpSize;i++){
-        tmp[i] = new ai(1);
+        tmp[i]->set_weight();
     }
     for(int i=0;i<GrpSize;i++){
         grp[i] = tmp[i];

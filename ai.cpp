@@ -6,22 +6,26 @@ float sigmoid(float v){
     return v/(abs(v)+1);
 }
 
-ai::ai(bool init){
-    //init weight, there may be a better way.
-    if(init){
-        for(int l=0;l<Layer;l++){
-            for(int fi=0;fi<8;fi++){
-                for(int fj=0;fj<8;fj++){
-                    for(int ti=0;ti<8;ti++){
-                        for(int tj=0;tj<8;tj++){
-                            if(fi!=ti&&fj!=tj)
-                                for(int p=0;p<acc;p++)
-                                    weight[l][fi][fj][ti][tj][p]=rand()%10;
-                        }
+void ai::set_weight(){
+    for(int l=0;l<Layer;l++){
+        for(int fi=0;fi<8;fi++){
+            for(int fj=0;fj<8;fj++){
+                for(int ti=0;ti<8;ti++){
+                    for(int tj=0;tj<8;tj++){
+                        if(fi!=ti&&fj!=tj)
+                            for(int p=0;p<acc;p++)
+                                weight[l][fi][fj][ti][tj][p]=rand()%10;
                     }
                 }
             }
         }
+    }
+}
+
+ai::ai(bool init){
+    //init weight, there may be a better way.
+    if(init){
+        set_weight();
     }
 }
 ai::~ai(){
@@ -29,9 +33,13 @@ ai::~ai(){
 }
 void ai::set_value(game *v){
     //init value for current map
+    int co = v->get_now_color();
     for(int fi=0;fi<8;fi++){
         for(int fj=0;fj<8;fj++){
-            value[fi][fj] = (float)(v->get_pos(make_pair(fi,fj)));
+            if(v->get_pos(make_pair(fi,fj)) == co)
+                value[fi][fj] = 1.0;
+            else
+                value[fi][fj] = -1.0;
         }
     }
     //compute
@@ -89,7 +97,7 @@ bool ai::run(game *v, bool sh){
         return true;
     }
     else{
-        cout << "no valid move." << endl;
+        cout << "not a valid move." << endl;
         return false;
     }
 }
