@@ -37,9 +37,9 @@ void ai::set_value(game *v){
     for(int fi=0;fi<8;fi++){
         for(int fj=0;fj<8;fj++){
             if(v->get_pos(make_pair(fi,fj)) == co)
-                value[fi][fj] = 1.0;
+                value[fi][fj] = 0.1;
             else
-                value[fi][fj] = -1.0;
+                value[fi][fj] = -0.1;
         }
     }
     //compute
@@ -68,10 +68,14 @@ void ai::set_value(game *v){
         for(int i=0;i<8;i++)
             for(int j=0;j<8;j++){
                 stimu = sigmoid(tmp[i][j]);
-                if(abs(stimu) > threshold)
-                    value[i][j] = stimu;
+                if(l < Layer-1){
+                    if(abs(stimu) > threshold)
+                        value[i][j] = stimu;
+                    else
+                        value[i][j] = 0;
+                }
                 else
-                    value[i][j] = 0;
+                    value[i][j] = stimu;
             }
     }
 }

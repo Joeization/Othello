@@ -50,3 +50,7 @@
     change:
         fixed memory usage
         class ai: change functions
+
+#Joeization 2016/3/21
+    change:
+        fiexed minor bugs
