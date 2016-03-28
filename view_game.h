@@ -30,6 +30,7 @@ private:
   void message_alert(const char *title, const char *first_msg, const char *second_msg);
   
   // 為了接gtk的event 無奈寫法
+  static void introduction(GtkWidget *button, gpointer data);
   static bool put_piece(GtkWidget *widget, GdkEventButton *event, gpointer data);
   static void change_view(GtkWidget *widget, gpointer data);
 

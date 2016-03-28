@@ -31,7 +31,7 @@ void view_game::landing(){
   intro_button = gtk_button_new_with_label("遊戲說明");
   gtk_box_pack_start(GTK_BOX(landing_table), intro_button, FALSE, FALSE, 0); 
   gtk_table_attach_defaults(GTK_TABLE(landing_table), intro_button, 1, 2, 2, 3); 
-  //g_signal_connect(GTK_OBJECT(intro_button),"clicked",G_CALLBACK(introduction),NULL);
+  g_signal_connect(GTK_OBJECT(intro_button), "clicked", G_CALLBACK(introduction), window);
 
   quit_button = gtk_button_new_with_label ("離開遊戲");
   g_signal_connect_swapped (G_OBJECT (quit_button), "clicked",
@@ -48,10 +48,11 @@ void view_game::create_top_info(GtkWidget *vbox, GtkWidget *hbox){
   gtk_box_pack_start(GTK_BOX(hbox), top_table, FALSE, FALSE, 4);
 
   this->now_player_label = gtk_label_new("Player:X");
+  gtk_misc_set_alignment(GTK_MISC(this->now_player_label),0.0,0.5); // left side
   gtk_table_attach_defaults(GTK_TABLE(top_table), this->now_player_label, 0, 1, 0, 1);
 
-  this->score_label = gtk_label_new("black:2 white:2");
-  gtk_table_attach_defaults(GTK_TABLE(top_table), this->score_label, 4, 5, 0, 1);
+  this->score_label = gtk_label_new("      black: 2 white: 2");
+  gtk_table_attach_defaults(GTK_TABLE(top_table), this->score_label,4, 5, 0, 1);
   
   gtk_widget_show_all(hbox);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
@@ -66,7 +67,7 @@ void view_game::change_top_info(){
   else  
     gtk_label_set_text(GTK_LABEL(this->now_player_label),"Player:O");
 
-  sprintf(temp_string, "black:%d white:%d", score.first, score.second);
+  sprintf(temp_string, "      black:%2d white:%2d", score.first, score.second);
   gtk_label_set_text(GTK_LABEL(this->score_label), temp_string);
 }
 
@@ -144,6 +145,17 @@ void view_game::ending_handler(){
   else
     gtk_widget_hide(window);
   */
+}
+
+void view_game::introduction(GtkWidget *button, gpointer data) {
+    GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(data), 
+                             GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, 
+                             GTK_BUTTONS_OK, "黑白棋");
+    gtk_window_set_title(GTK_WINDOW(dialog), "遊戲說明");
+    gtk_message_dialog_format_secondary_text(
+         GTK_MESSAGE_DIALOG(dialog), "玩家與電腦AI對奕，得分高者勝。");
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_widget_destroy(dialog);
 }
 
 void view_game::message_alert(const char *title, const char *first_msg, const char *second_msg){

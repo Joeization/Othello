@@ -45,3 +45,6 @@
       class view_game: top_info
     delete:
       class view (not need now)
+
+#willyc20 2016/3/29
+    fix some display problem
