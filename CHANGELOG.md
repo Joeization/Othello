@@ -46,5 +46,14 @@
     delete:
       class view (not need now)
 
+#Joeization 2016/3/20
+    change:
+        fixed memory usage
+        class ai: change functions
+
+#Joeization 2016/3/21
+    change:
+        fiexed minor bugs
+
 #willyc20 2016/3/29
     fix some display problem

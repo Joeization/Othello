@@ -172,10 +172,6 @@ vector<pair<int, int> > game::can_drop(int color){
 void game::ending_handler(){
   if(show)
     cout << "ending" << endl;
-  /*
-  else
-    gtk_widget_hide(window);
-  */
 }
 
 int game::winner(){

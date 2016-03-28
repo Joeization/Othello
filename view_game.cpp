@@ -51,7 +51,7 @@ void view_game::create_top_info(GtkWidget *vbox, GtkWidget *hbox){
   gtk_misc_set_alignment(GTK_MISC(this->now_player_label),0.0,0.5); // left side
   gtk_table_attach_defaults(GTK_TABLE(top_table), this->now_player_label, 0, 1, 0, 1);
 
-  this->score_label = gtk_label_new("      black: 2 white: 2");
+  this->score_label = gtk_label_new("  black: 2 white: 2");
   gtk_table_attach_defaults(GTK_TABLE(top_table), this->score_label,4, 5, 0, 1);
   
   gtk_widget_show_all(hbox);
@@ -67,7 +67,7 @@ void view_game::change_top_info(){
   else  
     gtk_label_set_text(GTK_LABEL(this->now_player_label),"Player:O");
 
-  sprintf(temp_string, "      black:%2d white:%2d", score.first, score.second);
+  sprintf(temp_string, "  black:%2d white:%2d", score.first, score.second);
   gtk_label_set_text(GTK_LABEL(this->score_label), temp_string);
 }
 
