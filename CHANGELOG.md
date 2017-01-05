@@ -53,7 +53,7 @@
 
 #Joeization 2016/3/21
     change:
-        fiexed minor bugs
+        minor bug fixes
 
 #willyc20 2016/3/29
     fix some display problem
